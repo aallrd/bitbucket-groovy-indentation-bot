@@ -1,0 +1,27 @@
+pipelineJob("groovy-indentation-bot") {
+
+  description("""A bot to check the proper groovy indentation of a pull request.<br>
+The documentation can be found here: <a href="github.com/aallrd/bitbucket-groovy-indentation-bot">groovy-indentation-bot</a>.""")
+
+  concurrentBuild()
+  quietPeriod(0)
+  authenticationToken("indentation-bot-token")
+
+  parameters {
+    stringParam('PULL_REQUEST_FROM_HASH', '')
+    stringParam('PULL_REQUEST_TO_REPO_PROJECT_KEY', '')
+    stringParam('PULL_REQUEST_TO_REPO_SLUG', '')
+    stringParam('PULL_REQUEST_ID','')
+    stringParam('PULL_REQUEST_COMMENT_ACTION', '')
+    stringParam('PULL_REQUEST_COMMENT_TEXT', '')
+    stringParam('PULL_REQUEST_FROM_HTTP_CLONE_URL', '')
+    stringParam('PULL_REQUEST_FROM_BRANCH', '')
+  }
+
+  definition {
+    cps {
+      script(readFileFromWorkspace('groovy-indentation-bot.groovy'))
+      sandbox()
+    }
+  }
+}
